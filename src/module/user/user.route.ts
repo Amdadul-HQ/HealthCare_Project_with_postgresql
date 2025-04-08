@@ -6,6 +6,4 @@ const router = express.Router();
 
 router.get("/",userController.createAdmin)
 
-
-
 export const userRoutes = router;
