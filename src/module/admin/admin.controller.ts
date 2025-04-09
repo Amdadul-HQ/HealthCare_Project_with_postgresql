@@ -3,9 +3,9 @@ import { AdminServices } from "./admin.service"
 
 
 const getAdmins = async(req:Request,res:Response) => {
-    console.log(req.query.searchTerm);
+
     try{
-        const result = await AdminServices.getAdminsFromDB(req.query.searchTerm as string)
+        const result = await AdminServices.getAdminsFromDB(req.query)
             res.status(200).json({
                 success:true,
                 message:'Admin Data Fetched Successfully',
