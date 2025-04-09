@@ -4,14 +4,34 @@ const prisma = new PrismaClient()
 
 
 const getAdminsFromDB = async(searchTerm:string) => {
-    const result = await prisma.admin.findMany({
-        where:{
-            name:{
-                contains:searchTerm
+    if(searchTerm){
+        const result = await prisma.admin.findMany({
+            where:{
+                // serch by name
+                // name:{
+                //     contains:searchTerm,
+                //     mode:"insensitive"
+                // }
+                OR:[
+                    {
+                        name:{
+                            contains:searchTerm,
+                            mode:'insensitive'
+                        },
+                    },
+                    {
+                        email:{
+                            contains:searchTerm,
+                            mode:'insensitive'
+                        }
+                    }
+                ]
             }
-        }
-    })
-    return result
+        })
+        return result
+    }
+    const result = await prisma.admin.findMany()
+    return result;
 }
 
 export const AdminServices = {
