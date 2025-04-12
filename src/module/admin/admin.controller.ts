@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AdminServices } from "./admin.service"
 import pick from "../../app/shared/pick";
-import { adminFilterableFields } from "./admin.constant";
+import { adminFilterableFields, paginationOptions } from "./admin.constant";
 
 
 
@@ -10,7 +10,7 @@ const getAdmins = async(req:Request,res:Response) => {
     try{
 
         const filter = pick(req.query,adminFilterableFields)
-        const options = pick(req.query,['limite','page'])
+        const options = pick(req.query,paginationOptions)
 
         console.log(options);
 

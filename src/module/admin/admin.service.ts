@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 
 const getAdminsFromDB = async(params:any,options:any) => {
 
-    const {page,limite} = options
+    const {page,limite,sortBy,sortOrder} = options
 
     const {searchTerm,...filterData} = params
 
@@ -64,7 +64,7 @@ const getAdminsFromDB = async(params:any,options:any) => {
         skip:(parseInt(page) -1) * parseInt(limite),
         take:parseInt(limite),
         orderBy:{
-            createdAt:"desc"
+            [sortBy]:sortOrder
         }
     })
     return result
