@@ -63,9 +63,7 @@ const getAdminsFromDB = async(params:any,options:any) => {
         where: whereConditions,
         skip:(parseInt(page) -1) * parseInt(limite),
         take:parseInt(limite),
-        orderBy:{
-            [sortBy]:sortOrder
-        }
+        orderBy:(sortBy && sortOrder) ? {[sortBy]:sortOrder} : {createdAt:'asc'}
     })
     return result
 }
