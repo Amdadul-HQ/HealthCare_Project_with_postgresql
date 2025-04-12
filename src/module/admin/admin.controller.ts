@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AdminServices } from "./admin.service"
 import pick from "../../app/shared/pick";
+import { adminFilterableFields } from "./admin.constant";
 
 
 
@@ -8,9 +9,12 @@ const getAdmins = async(req:Request,res:Response) => {
 
     try{
 
-        const filter = pick(req.query,['name','email','searchTerm','contactNumber'])
+        const filter = pick(req.query,adminFilterableFields)
+        const options = pick(req.query,['limite','page'])
 
-        const result = await AdminServices.getAdminsFromDB(filter)
+        console.log(options);
+
+        const result = await AdminServices.getAdminsFromDB(filter,options)
             res.status(200).json({
                 success:true,
                 message:'Admin Data Fetched Successfully',
