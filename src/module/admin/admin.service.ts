@@ -62,7 +62,10 @@ const getAdminsFromDB = async(params:any,options:any) => {
     const result = await prisma.admin.findMany({
         where: whereConditions,
         skip:(parseInt(page) -1) * parseInt(limite),
-        take:parseInt(limite)
+        take:parseInt(limite),
+        orderBy:{
+            createdAt:"desc"
+        }
     })
     return result
 }
