@@ -9,4 +9,6 @@ router.get('/:id',AdminController.getAdminById)
 
 router.patch('/:id',AdminController.updateAdminData)
 
+router.delete('/:id',AdminController.deleteAdmin)
+
 export const AdminRoutes = router

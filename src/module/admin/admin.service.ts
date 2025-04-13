@@ -108,10 +108,33 @@ const updateInToDB = async(id:string,updateData:Partial<Admin>)=> {
     return result
 }
 
-// const 
+const deleteAdminFromDB = async (id:string)=> {
+
+    const result = await prisma.$transaction(async(tx)=>{
+        const adminDeletedData = await tx.admin.delete({
+            where:{
+                id
+            }
+        })
+        const userDeletedDate = await tx.user.delete({
+            where:{
+                email:adminDeletedData.email
+            }
+        })
+        return {adminDeletedData,userDeletedDate}
+    })
+
+    return result
+    // const result = await prisma.admin.delete({
+    //     where:{
+    //         id
+    //     }
+    // })
+}
 
 export const AdminServices = {
     getAdminsFromDB,
     getAdminByIDFromDB,
-    updateInToDB
+    updateInToDB,
+    deleteAdminFromDB
 }
