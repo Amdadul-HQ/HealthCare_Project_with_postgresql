@@ -32,8 +32,8 @@ const getAdmins = async(req:Request,res:Response) => {
 
 const getAdminById = async(req:Request,res:Response)=> {
     try{
-
-        const result = await AdminServices.getAdminByIDFromDB(req.params.id)
+        const {id} = req.params
+        const result = await AdminServices.getAdminByIDFromDB(id)
         res.status(200).json({
             success:true,
             message:'Admin Data Fetched By Id Successfully',
@@ -48,6 +48,8 @@ const getAdminById = async(req:Request,res:Response)=> {
         })
     }
 }
+
+
 
 
 export const AdminController = {
