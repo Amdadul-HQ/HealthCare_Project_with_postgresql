@@ -68,9 +68,11 @@ const getAdminsFromDB = async(params:any,options:any) => {
         orderBy:(sortBy && sortOrder) ? {[sortBy]:sortOrder} : {createdAt:'asc'}
     })
     return {
-        page,
-        limite,
-        result
+        meta:{
+            page,
+            limite
+        },
+        data:result
     }
 }
 
