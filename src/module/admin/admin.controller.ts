@@ -12,7 +12,6 @@ const getAdmins = async(req:Request,res:Response) => {
         const filter = pick(req.query,adminFilterableFields)
         const options = pick(req.query,paginationOptions)
 
-        console.log(options);
 
         const result = await AdminServices.getAdminsFromDB(filter,options)
             res.status(200).json({
@@ -31,7 +30,27 @@ const getAdmins = async(req:Request,res:Response) => {
     }
 }
 
+const getAdminById = async(req:Request,res:Response)=> {
+    try{
+
+        const result = await AdminServices.getAdminByIDFromDB(req.params.id)
+        res.status(200).json({
+            success:true,
+            message:'Admin Data Fetched By Id Successfully',
+            data:result
+        })
+    }
+    catch(error:any){
+        res.status(500).json({
+            success:false,
+            message:error.name || "Something want wrong",
+            error:error
+        })
+    }
+}
+
 
 export const AdminController = {
-    getAdmins
+    getAdmins,
+    getAdminById
 }
