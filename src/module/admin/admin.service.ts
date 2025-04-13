@@ -1,4 +1,4 @@
-import { Admin, Prisma  } from "@prisma/client";
+import { Admin, Prisma, UserStatus  } from "@prisma/client";
 import { adminSearchAbleFields } from "./admin.constant";
 import { paginationHelper } from "../../app/helper/paginationHelper";
 import prisma from "../../app/shared/prisma";
@@ -157,7 +157,7 @@ const softDeletedAdminFromDB = async(id:string)=>{
                 email:adminDeletedData.email
             },
             data:{
-                status:'DELETED'
+                status:UserStatus.DELETED
             }
         })
         return {adminDeletedData,userDeletedDate}
