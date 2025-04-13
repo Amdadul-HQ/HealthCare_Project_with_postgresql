@@ -87,7 +87,7 @@ const getAdminsFromDB = async(params:any,options:any) => {
 }
 
 
-const getAdminByIDFromDB = async(id:string) => {
+const getAdminByIDFromDB = async(id:string) :Promise<Admin | null> => {
     const result = await prisma.admin.findUnique({
         where:{
             id,
@@ -114,7 +114,7 @@ const updateInToDB = async(id:string,updateData:Partial<Admin>)=> {
     return result
 }
 
-const deleteAdminFromDB = async (id:string)=> {
+const deleteAdminFromDB = async (id:string) :Promise<Admin | null>=> {
 
     await prisma.admin.findUniqueOrThrow({
         where:{
@@ -133,10 +133,10 @@ const deleteAdminFromDB = async (id:string)=> {
                 email:adminDeletedData.email
             }
         })
-        return {adminDeletedData,userDeletedDate}
+        return {adminDeletedData}
     })
 
-    return result
+    return result.adminDeletedData
 
 }
 
@@ -145,7 +145,8 @@ const softDeletedAdminFromDB = async(id:string)=>{
 
     await prisma.admin.findUniqueOrThrow({
         where:{
-            id
+            id,
+            isDeleted:false
         }
     })
 
