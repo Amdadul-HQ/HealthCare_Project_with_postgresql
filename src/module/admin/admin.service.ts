@@ -67,7 +67,11 @@ const getAdminsFromDB = async(params:any,options:any) => {
         take:Number(limite),
         orderBy:(sortBy && sortOrder) ? {[sortBy]:sortOrder} : {createdAt:'asc'}
     })
-    return result
+    return {
+        page,
+        limite,
+        result
+    }
 }
 
 export const AdminServices = {
