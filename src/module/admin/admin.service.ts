@@ -110,6 +110,12 @@ const updateInToDB = async(id:string,updateData:Partial<Admin>)=> {
 
 const deleteAdminFromDB = async (id:string)=> {
 
+    await prisma.admin.findUniqueOrThrow({
+        where:{
+            id
+        }
+    })
+
     const result = await prisma.$transaction(async(tx)=>{
         const adminDeletedData = await tx.admin.delete({
             where:{
