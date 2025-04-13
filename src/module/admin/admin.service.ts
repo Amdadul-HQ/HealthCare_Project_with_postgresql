@@ -67,10 +67,16 @@ const getAdminsFromDB = async(params:any,options:any) => {
         take:Number(limite),
         orderBy:(sortBy && sortOrder) ? {[sortBy]:sortOrder} : {createdAt:'asc'}
     })
+
+    const total = await prisma.admin.count({
+        where:whereConditions
+    })
+
     return {
         meta:{
             page,
-            limite
+            limite,
+            total
         },
         data:result
     }
