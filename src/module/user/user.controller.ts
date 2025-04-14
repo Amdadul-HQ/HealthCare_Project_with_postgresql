@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { useServices } from "./user.service";
 
-const createAdmin = async (req:Request,res:Response) => {
+const createAdmin = async (req:Request,res:Response,next:NextFunction) => {
 
     try{
         const result = await useServices.createAdminInToDB(req.body);
@@ -12,11 +12,7 @@ const createAdmin = async (req:Request,res:Response) => {
         })
     }
     catch(error:any){
-        res.status(500).json({
-            success:false,
-            message:error.name || "Something want wrong",
-            error:error
-        })
+        next(error)
     }
 
 }
