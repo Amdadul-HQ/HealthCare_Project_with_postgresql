@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { AdminServices } from "./admin.service"
 import pick from "../../app/shared/pick";
 import { adminFilterableFields, paginationOptions } from "./admin.constant";
@@ -6,7 +6,7 @@ import { sendResponse } from "../../app/shared/sendResponse";
 import  httpStatus  from "http-status";
 
 
-const getAdmins = async(req:Request,res:Response,next:NextFunction) => {
+const getAdmins:RequestHandler = async(req:Request,res:Response,next:NextFunction) => {
 
     try{
 
