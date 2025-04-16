@@ -15,7 +15,7 @@ const moduleRoutes = [
         route:AdminRoutes
     },
     {
-        path:'auth',
+        path:'/auth',
         route:AuthRoutes
     }
 ]
