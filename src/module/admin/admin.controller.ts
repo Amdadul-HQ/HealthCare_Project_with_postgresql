@@ -4,17 +4,9 @@ import pick from "../../app/shared/pick";
 import { adminFilterableFields, paginationOptions } from "./admin.constant";
 import { sendResponse } from "../../app/shared/sendResponse";
 import  httpStatus  from "http-status";
+import { catchAsync } from "../../app/helper/catchAsync";
 
-const catchAsync = (fn:RequestHandler) => {
-    return async(req:Request,res:Response,next:NextFunction)=> {
-        try{
-            await fn(req,res,next)
-        }
-        catch(error){
-            next(error)
-        }
-    }
-}
+
 
 const getAdmins:RequestHandler = catchAsync(async(req,res,next) => {
 
