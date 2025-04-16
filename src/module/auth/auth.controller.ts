@@ -37,10 +37,7 @@ const refreshToken = catchAsync(async(req:Request,res:Response) => {
         statusCode:httpStatus.OK,
         success:true,
         message:"Refresh token set successfully",
-        // data:{
-        //     accessToken,
-        //     needPasswordChange
-        // }
+        data:result
     })
 
 })
