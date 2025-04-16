@@ -8,11 +8,21 @@ const loginUser = catchAsync(async(req:Request,res:Response) => {
 
     const result = await AuthServices.loginUser(req.body);
 
+    const {refreshToken,accessToken,needPasswordChange} = result;
+
+    res.cookie('refreshToken',refreshToken,{
+        secure:false,
+        httpOnly:true
+    })
+
     sendResponse(res,{
         statusCode:httpStatus.OK,
         success:true,
         message:"login successfully",
-        data:result
+        data:{
+            accessToken,
+            needPasswordChange
+        }
     })
 
 })
