@@ -1,7 +1,7 @@
 import { Jwthelper } from "../../app/helper/jwtHelper";
 import prisma from "../../app/shared/prisma";
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 
 
@@ -50,11 +50,10 @@ const refreshToken = async(token:string) => {
     let decodedData;
     try{
 
-        decodedData = jwt.verify(token,'RefreshToken');
+        decodedData = Jwthelper.verifyToken(token,'RefreshToken')
         
     }
     catch(error){
-
         throw new Error("you are not authorized")
     }
 
