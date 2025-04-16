@@ -1,3 +1,4 @@
+import { UserStatus } from "@prisma/client";
 import { Jwthelper } from "../../app/helper/jwtHelper";
 import prisma from "../../app/shared/prisma";
 import bcrypt from 'bcryptjs';
@@ -10,7 +11,8 @@ const loginUser = async(payload:{email:string,password:string}) => {
 
     const userData = await prisma.user.findUniqueOrThrow({
         where:{
-            email:payload.email
+            email:payload.email,
+            status:UserStatus.ACTIVE
         }
     })
 
@@ -58,7 +60,8 @@ const refreshToken = async(token:string) => {
     }
 
     const isUserExist = await prisma.user.findUniqueOrThrow({
-        where:decodedData?.email
+        where:{email:decodedData?.email,status:UserStatus.ACTIVE}
+        
     });
 
     if(!isUserExist){
