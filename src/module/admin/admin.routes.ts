@@ -1,4 +1,4 @@
-import express,   from 'express';
+import express  from 'express';
 import { AdminController } from './admin.controller';
 import { z } from 'zod'
 import { validateRequest } from '../../app/middleWares/validationRequest';
