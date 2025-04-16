@@ -6,7 +6,7 @@ import { sendResponse } from "../../app/shared/sendResponse";
 import  httpStatus  from "http-status";
 
 
-const getAdmins:RequestHandler = async(req:Request,res:Response,next:NextFunction) => {
+const getAdmins:RequestHandler = async(req,res,next) => {
 
     try{
 
