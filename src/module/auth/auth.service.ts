@@ -1,6 +1,10 @@
+import { Jwthelper } from "../../app/helper/jwtHelper";
 import prisma from "../../app/shared/prisma";
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken'
+
+
+
+
 
 const loginUser = async(payload:{email:string,password:string}) => {
 
@@ -16,25 +20,23 @@ const loginUser = async(payload:{email:string,password:string}) => {
         throw new Error("Incorret Password")
     }
 
-    const accessToken = jwt.sign({
-        email:userData.email,
-        role:userData.role
-    },
-    'secret',
-    {
-        algorithm:'HS256',
-        expiresIn:'5m'
-    })
+    const accessToken = Jwthelper.generateToken(
+        {
+            email:userData.email,
+            role:userData.role
+        },
+        "AccessToken",
+        '5m'
+    )
 
-    const refreshToken = jwt.sign({
-        email:userData.email,
-        role:userData.role
-    },
-    'refreshToken',
-    {
-        algorithm:'HS256',
-        expiresIn:'30d'
-    })
+    const refreshToken = Jwthelper.generateToken(
+        {
+            email:userData.email,
+            role:userData.role
+        },
+        "RefreshToken",
+        '30d'
+    )
 
     return {
         accessToken,
@@ -43,6 +45,12 @@ const loginUser = async(payload:{email:string,password:string}) => {
     }
 }
 
+
+const refreshToken = async(token:string) => {
+
+}
+
 export const AuthServices = {
-    loginUser
+    loginUser,
+    refreshToken
 }

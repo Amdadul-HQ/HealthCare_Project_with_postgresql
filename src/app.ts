@@ -3,7 +3,7 @@ import cors from 'cors'
 import router from './app/routers';
 import globalErrorHandler from './app/middleWares/globalErrorHandler';
 import httpStatus from 'http-status'
-import { error } from 'console';
+import cookeParser from 'cookie-parser'
 
 const app:Application = express();
 
@@ -12,6 +12,8 @@ app.use(cors())
 app.use(express.json())
 
 app.use(express.urlencoded({extended:true}))
+
+app.use(cookeParser())
 
 app.get('/',(req:Request,res:Response)=>{
     res.send({
