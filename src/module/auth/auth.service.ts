@@ -2,7 +2,6 @@ import { UserStatus } from "@prisma/client";
 import { Jwthelper } from "../../app/helper/jwtHelper";
 import prisma from "../../app/shared/prisma";
 import bcrypt from 'bcryptjs';
-import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 import config from "../../app/config";
 
 
