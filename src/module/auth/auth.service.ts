@@ -88,8 +88,9 @@ const changePasswordInToDB = async(user,payload) => {
     
         where:{
     
-            email:user.email
-    
+            email:user.email,
+
+            status:UserStatus.ACTIVE,
     
         }
     }
