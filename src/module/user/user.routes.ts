@@ -1,6 +1,12 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { userController } from "./user.controller";
 
+
+const auth = (...roles:string[])=>{
+    return async(req:Request,res:Response,next:NextFunction) => {
+
+    }
+}
 
 const router = express.Router();
 
