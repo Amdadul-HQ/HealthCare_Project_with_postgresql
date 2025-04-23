@@ -15,10 +15,13 @@ const auth = (...roles:string[])=>{
 
             const varifiedUser = Jwthelper.verifyToken(token as  string,config.jwt.jwt_scret as string)
             
+            
             if(roles.length && !(roles.includes(varifiedUser.role))){
                 throw new ApiError(httpStatus.FORBIDDEN,"You are Forbidden!!")
             }
-
+            
+            req.user = varifiedUser
+            
             next()
         }
         catch(error){
