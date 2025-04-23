@@ -157,9 +157,41 @@ const forgotPasswordInToDB = async(payload:{email:string}) =>{
 
 }
 
+const resetPasswordInToDB = async (token:string,payload:{email:string,password:string}) => {
+    const userData = await prisma.user.findUniqueOrThrow({
+        where:{
+            email:payload.email,
+            status:UserStatus.ACTIVE
+        }
+    })
+
+
+    const isValiedToken = Jwthelper.verifyToken(token,config.reset_password_secret as string)
+
+    if(!isValiedToken){
+        throw new ApiError(httpStatus.FORBIDDEN,"Forbidden")
+    }
+
+
+    const hashedPassword = await bcrypt.hash(payload.password,12)
+
+    const updateUserPass = await prisma.user.update({
+        where:{
+            email:payload.email,
+            status:UserStatus.ACTIVE
+        },
+        data:{
+            password:hashedPassword
+        }
+    })
+
+    return updateUserPass
+}
+
 export const AuthServices = {
     loginUser,
     refreshToken,
     changePasswordInToDB,
-    forgotPasswordInToDB
+    forgotPasswordInToDB,
+    resetPasswordInToDB
 }
