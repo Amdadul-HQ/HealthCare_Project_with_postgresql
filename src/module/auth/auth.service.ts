@@ -82,7 +82,7 @@ const refreshToken = async(token:string) => {
 }
 
 
-const changePasswordInToDB = async(user,payload) => {
+const changePasswordInToDB = async(user:any,payload:{newPassword:string,password:string}) => {
     
     const userData = await prisma.user.findUniqueOrThrow({
     
