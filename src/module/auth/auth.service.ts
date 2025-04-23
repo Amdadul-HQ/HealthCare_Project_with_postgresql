@@ -124,8 +124,39 @@ const changePasswordInToDB = async(user:any,payload:{newPassword:string,password
     return {message:"password change successfully"}
 }
 
+
+const forgotPasswordInToDB = async(payload:{email:string}) =>{
+
+    const userDate = await prisma.user.findUniqueOrThrow({
+        
+        where:{
+            email:payload.email,
+            status:UserStatus.ACTIVE
+        }
+    });
+
+    const resetPasswordToken = Jwthelper.generateToken(
+    
+        {
+            email:userDate.email,
+            role:userDate.role
+        },
+        config.reset_password_secret as string,
+        config.reset_password_expires_in as string
+    )
+
+    // http://localhost:3001/reset-password?email=example@gmail.com&token=
+
+
+    const resetPasswordLink = config.reset_password_link+ `?email=${userDate.email}&token=${refreshToken}`
+
+    
+
+}
+
 export const AuthServices = {
     loginUser,
     refreshToken,
-    changePasswordInToDB
+    changePasswordInToDB,
+    forgotPasswordInToDB
 }
