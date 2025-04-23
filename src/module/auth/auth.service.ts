@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import config from "../../app/config";
 import ApiError from "../../app/error/ApiError";
 import httpStatus from 'http-status'
+import emailSender from "./emailSender";
 
 
 
@@ -150,7 +151,9 @@ const forgotPasswordInToDB = async(payload:{email:string}) =>{
 
     const resetPasswordLink = config.reset_password_link+ `?email=${userDate.email}&token=${refreshToken}`
 
-    
+    await emailSender(userDate.email,resetPasswordLink)
+
+    return {message:"Reset Link Send"}
 
 }
 
