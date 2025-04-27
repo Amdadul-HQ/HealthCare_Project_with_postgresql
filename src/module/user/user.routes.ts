@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { userController } from "./user.controller";
 import auth from "../../app/middleWares/auth";
 import { UserRole } from "@prisma/client";
@@ -7,6 +7,7 @@ import { fileUploder } from "../../app/helper/fileUploader";
 const router = express.Router();
 
 import { v2 as cloudinary } from 'cloudinary';
+import { userValidation } from "./user.validation";
 
 (async function() {
 
@@ -53,6 +54,11 @@ import { v2 as cloudinary } from 'cloudinary';
 
 router.post("/",
     auth(UserRole.SUPER_ADMIN,UserRole.ADMIN),
-    fileUploder.upload.single('file'), userController.createAdmin)
+    fileUploder.upload.single('file'), 
+    (req:Request,res:Response,next:NextFunction) => {
+       req.body = userValidation.createAdmin.parse(JSON.parse(req.body.data))
+       return userController.createAdmin(req,res,next)
+    },
+)
 
 export const UserRoutes = router;
