@@ -158,14 +158,19 @@ const getAllFromDB = async(params:any,options:IPaginationOptions) => {
         skip:(Number(page) -1) * Number(limite),
         take:Number(limite),
         orderBy:(sortBy && sortOrder) ? {[sortBy]:sortOrder} : {createdAt:'asc'},
-        select:{
-            id:true,
-            email:true,
-            role:true,
-            needPasswordChange:true,
-            status:true,
-            createdAt:true,
-            updatedAt:true
+        // select:{
+        //     id:true,
+        //     email:true,
+        //     role:true,
+        //     needPasswordChange:true,
+        //     status:true,
+        //     createdAt:true,
+        //     updatedAt:true
+        // },
+        include:{
+            admin:true,
+            patient:true,
+            doctor:true
         }
     })
 
