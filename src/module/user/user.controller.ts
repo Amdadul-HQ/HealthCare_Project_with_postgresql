@@ -17,7 +17,24 @@ const createAdmin = async (req:Request,res:Response,next:NextFunction) => {
 
 }
 
+const createDoctor = async (req:Request,res:Response,next:NextFunction) => {
+
+    try{
+        const result = await useServices.createDoctorInToDB(req);
+        res.status(200).json({
+            success:true,
+            message:'Doctor Created Successfully',
+            data:result
+        })
+    }
+    catch(error:any){
+        next(error)
+    }
+
+}
+
 
 export const userController = {
-    createAdmin
+    createAdmin,
+    createDoctor
 }
