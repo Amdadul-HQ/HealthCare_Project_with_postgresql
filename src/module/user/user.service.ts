@@ -1,8 +1,9 @@
 
-import { UserRole } from '@prisma/client';
+import { Patient, UserRole } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import prisma from '../../app/shared/prisma';
 import { fileUploder } from '../../app/helper/fileUploader';
+import { IFile } from '../../app/interface/file';
 
 
 const createAdminInToDB = async (req:any) =>{
@@ -65,8 +66,40 @@ const createDoctorInToDB = async (req:any) =>{
     return result;
 }
 
+const createPatientInToDB = async (req: any): Promise<Patient> => {
+    const file = req.file as IFile;
+
+    if (file) {
+        const uploadedProfileImage = await fileUploder.uploadToCloudinary(file);
+        req.body.patient.profilePhoto = uploadedProfileImage?.secure_url;
+    }
+
+    const hashedPassword: string = await bcrypt.hash(req.body.password, 12)
+
+    const userData = {
+        email: req.body.patient.email,
+        password: hashedPassword,
+        role: UserRole.PAIENT
+    }
+
+    const result = await prisma.$transaction(async (transactionClient) => {
+        await transactionClient.user.create({
+            data: userData
+        });
+
+        const createdPatientData = await transactionClient.patient.create({
+            data: req.body.patient
+        });
+
+        return createdPatientData;
+    });
+
+    return result;
+};
+
 
 export const useServices = {
     createAdminInToDB,
-    createDoctorInToDB
+    createDoctorInToDB,
+    createPatientInToDB
 }

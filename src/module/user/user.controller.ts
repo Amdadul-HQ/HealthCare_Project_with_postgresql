@@ -1,40 +1,45 @@
 import { NextFunction, Request, Response } from "express";
 import { useServices } from "./user.service";
+import { catchAsync } from "../../app/helper/catchAsync";
+import { sendResponse } from "../../app/shared/sendResponse";
+import httpStatus from "http-status";
 
-const createAdmin = async (req:Request,res:Response,next:NextFunction) => {
+const createAdmin = catchAsync(async (req: Request, res: Response) => {
 
-    try{
-        const result = await useServices.createAdminInToDB(req);
-        res.status(200).json({
-            success:true,
-            message:'Admin Created Successfully',
-            data:result
-        })
-    }
-    catch(error:any){
-        next(error)
-    }
+    const result = await useServices.createAdminInToDB(req);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Admin Created successfuly!",
+        data: result
+    })
+});
 
-}
+const createDoctor = catchAsync(async (req: Request, res: Response) => {
 
-const createDoctor = async (req:Request,res:Response,next:NextFunction) => {
+    const result = await useServices.createDoctorInToDB(req);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Doctor Created successfuly!",
+        data: result
+    })
+});
 
-    try{
-        const result = await useServices.createDoctorInToDB(req);
-        res.status(200).json({
-            success:true,
-            message:'Doctor Created Successfully',
-            data:result
-        })
-    }
-    catch(error:any){
-        next(error)
-    }
+const createPatient = catchAsync(async (req: Request, res: Response) => {
 
-}
+    const result = await useServices.createPatientInToDB(req);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Patient Created successfuly!",
+        data: result
+    })
+});
 
 
 export const userController = {
     createAdmin,
-    createDoctor
+    createDoctor,
+    createPatient
 }
