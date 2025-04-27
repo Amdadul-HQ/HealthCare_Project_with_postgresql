@@ -35,4 +35,6 @@ router.post(
     }
 );
 
+router.get("/")
+
 export const UserRoutes = router;
