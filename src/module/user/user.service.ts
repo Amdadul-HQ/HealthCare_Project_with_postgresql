@@ -157,7 +157,16 @@ const getAllFromDB = async(params:any,options:IPaginationOptions) => {
         where: whereConditions,
         skip:(Number(page) -1) * Number(limite),
         take:Number(limite),
-        orderBy:(sortBy && sortOrder) ? {[sortBy]:sortOrder} : {createdAt:'asc'}
+        orderBy:(sortBy && sortOrder) ? {[sortBy]:sortOrder} : {createdAt:'asc'},
+        select:{
+            id:true,
+            email:true,
+            role:true,
+            needPasswordChange:true,
+            status:true,
+            createdAt:true,
+            updatedAt:true
+        }
     })
 
     const total = await prisma.user.count({
