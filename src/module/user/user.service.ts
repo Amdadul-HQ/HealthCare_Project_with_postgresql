@@ -9,7 +9,7 @@ const createAdminInToDB = async (req:any) =>{
     // const data = req?.body?.data
     const file = req?.file 
     if(file){
-        const uploadToCloudinary = await fileUploder.uploadToCloudinary(file)
+        const uploadToCloudinary  = await fileUploder.uploadToCloudinary(file)
         req.body.admin.profilePhoto = uploadToCloudinary?.secure_url as string
 
     }
