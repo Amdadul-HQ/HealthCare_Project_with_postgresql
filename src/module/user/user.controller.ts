@@ -1,8 +1,11 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { useServices } from "./user.service";
 import { catchAsync } from "../../app/helper/catchAsync";
 import { sendResponse } from "../../app/shared/sendResponse";
 import httpStatus from "http-status";
+import pick from "../../app/shared/pick";
+import { userFilterableFields } from "./user.constant";
+import { paginationOptions } from "../admin/admin.constant";
 
 const createAdmin = catchAsync(async (req: Request, res: Response) => {
 
@@ -37,9 +40,29 @@ const createPatient = catchAsync(async (req: Request, res: Response) => {
     })
 });
 
+const getUsers:RequestHandler = catchAsync(async(req,res,next) => {
+
+    const filter = pick(req.query,userFilterableFields)
+
+    const options = pick(req.query,paginationOptions)
+
+    const result = await useServices.getAllFromDB(filter,options)
+        sendResponse(res,
+            {
+                statusCode:httpStatus.OK,
+                success:true,
+                message:'User Data Fetched Successfully',
+                meta:result.meta,
+                data:result.data
+            }
+        )
+    }
+)
+
 
 export const userController = {
     createAdmin,
     createDoctor,
-    createPatient
+    createPatient,
+    getUsers
 }

@@ -7,6 +7,9 @@ import { userValidation } from "./user.validation";
 
 const router = express.Router();
 
+router.get("/",
+    userController.getUsers
+)
 
 router.post("/",
     auth(UserRole.SUPER_ADMIN,UserRole.ADMIN),
@@ -35,6 +38,5 @@ router.post(
     }
 );
 
-router.get("/")
 
 export const UserRoutes = router;
