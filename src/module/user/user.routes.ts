@@ -1,9 +1,9 @@
 import express, { NextFunction, Request, Response } from "express";
 import { userController } from "./user.controller";
 import auth from "../../app/middleWares/auth";
-import { UserRole } from "@prisma/client";
 import { fileUploder } from "../../app/helper/fileUploader";
 import { userValidation } from "./user.validation";
+import {UserRole} from "@prisma/client"
 
 const router = express.Router();
 
@@ -42,6 +42,12 @@ router.post(
 router.patch(
     '/:id/status',
     userController.changeProfileStatus
+)
+
+router.get(
+    '/me',
+    auth(UserRole.SUPER_ADMIN,UserRole.ADMIN,UserRole.DOCTOR,UserRole.PAIENT,UserRole.SUPER_ADMIN),
+    userController.getMyProfile
 )
 
 
