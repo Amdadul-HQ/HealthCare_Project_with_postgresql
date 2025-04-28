@@ -74,6 +74,8 @@ const createPatient = z.object({
     })
 });
 
+// const updateMyProfile = 
+
 export const userValidation = {
     createAdmin,
     createDoctor,

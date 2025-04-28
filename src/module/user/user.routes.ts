@@ -12,6 +12,12 @@ router.get("/",
     userController.getUsers
 )
 
+router.get(
+    '/me',
+    auth(UserRole.SUPER_ADMIN,UserRole.ADMIN,UserRole.DOCTOR,UserRole.PAIENT,UserRole.SUPER_ADMIN),
+    userController.getMyProfile
+)
+
 router.post("/",
     auth(UserRole.SUPER_ADMIN,UserRole.ADMIN),
     fileUploder.upload.single('file'), 
@@ -44,11 +50,16 @@ router.patch(
     userController.changeProfileStatus
 )
 
-router.get(
-    '/me',
-    auth(UserRole.SUPER_ADMIN,UserRole.ADMIN,UserRole.DOCTOR,UserRole.PAIENT,UserRole.SUPER_ADMIN),
-    userController.getMyProfile
-)
+
+router.patch(
+    "/update-my-profile",
+    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.DOCTOR, UserRole.PAIENT),
+    fileUploder.upload.single('file'),
+    (req: Request, res: Response, next: NextFunction) => {
+        req.body = JSON.parse(req.body.data)
+        return userController.updateMyProfile(req, res, next)
+    }
+);
 
 
 export const UserRoutes = router;
