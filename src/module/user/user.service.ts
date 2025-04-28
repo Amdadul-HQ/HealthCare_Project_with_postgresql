@@ -3,10 +3,12 @@ import { Patient, Prisma, UserRole, UserStatus } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import prisma from '../../app/shared/prisma';
 import { fileUploder } from '../../app/helper/fileUploader';
-import { IFile } from '../../app/interface/file';
 import { IPaginationOptions } from '../../app/interface/pagination';
 import { paginationHelper } from '../../app/helper/paginationHelper';
 import { userSearchAbleFields } from './user.constant';
+import { IAuthUser } from '../../app/interface/common';
+import { Request } from 'express';
+import { IFile } from '../../app/interface/file';
 
 
 const createAdminInToDB = async (req:any) =>{
@@ -257,7 +259,7 @@ const getMyProfileFromDB = async (user:any) => {
     return {...userInFo,...profileInFo};
 }
 
-const updateMyProfileInToDB = async(user,req) => {
+const updateMyProfileInToDB = async(user:IAuthUser,req:Request) => {
      const userInfo = await prisma.user.findUniqueOrThrow({
         where: {
             email: user?.email,

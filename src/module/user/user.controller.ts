@@ -6,6 +6,7 @@ import httpStatus from "http-status";
 import pick from "../../app/shared/pick";
 import { userFilterableFields } from "./user.constant";
 import { paginationOptions } from "../admin/admin.constant";
+import { IAuthUser } from "../../app/interface/common";
 
 const createAdmin = catchAsync(async (req: Request, res: Response) => {
 
@@ -91,7 +92,7 @@ const getMyProfile = catchAsync(async (req: Request, res: Response) => {
 
 const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
 
-    const user = req.user;
+    const user = req?.user;
 
 
     const result = await useServices.updateMyProfileInToDB(user,req)
