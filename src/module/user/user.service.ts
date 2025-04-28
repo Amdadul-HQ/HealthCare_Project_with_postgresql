@@ -195,6 +195,13 @@ const changeProfileStatusInToDB = async (id: string, status: UserRole) => {
     const userData = await prisma.user.findUniqueOrThrow({
         where: {
             id
+        },
+        select:{
+            id:true,
+            email:true,
+            needPasswordChange:true,
+            role:true,
+            status:true
         }
     });
 
