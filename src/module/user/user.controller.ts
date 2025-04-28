@@ -59,10 +59,24 @@ const getUsers:RequestHandler = catchAsync(async(req,res,next) => {
     }
 )
 
+const changeProfileStatus = catchAsync(async (req: Request, res: Response) => {
+
+    const { id } = req.params;
+    const result = await useServices.changeProfileStatusInToDB(id, req.body)
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Users profile status changed!",
+        data: result
+    })
+});
+
 
 export const userController = {
     createAdmin,
     createDoctor,
     createPatient,
-    getUsers
+    getUsers,
+    changeProfileStatus
 }

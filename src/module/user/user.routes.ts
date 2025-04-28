@@ -8,6 +8,7 @@ import { userValidation } from "./user.validation";
 const router = express.Router();
 
 router.get("/",
+    auth(UserRole.ADMIN,UserRole.ADMIN),
     userController.getUsers
 )
 
@@ -37,6 +38,11 @@ router.post(
         return userController.createPatient(req, res, next)
     }
 );
+
+router.patch(
+    '/:id/status',
+    userController.changeProfileStatus
+)
 
 
 export const UserRoutes = router;
