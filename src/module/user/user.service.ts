@@ -208,8 +208,15 @@ const changeProfileStatusInToDB = async (id: string, status: UserRole) => {
     return updateUserStatus;
 }
 
-const getMyProfileFromDB = async () => {
+const getMyProfileFromDB = async (user:any) => {
+    
+    const userInFo = await prisma.user.findUniqueOrThrow({
+        where:{
+            email:user.email
+        }
+    });
 
+    return userInFo;
 }
 
 
