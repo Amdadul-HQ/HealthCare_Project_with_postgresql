@@ -216,7 +216,38 @@ const getMyProfileFromDB = async (user:any) => {
         }
     });
 
-    return userInFo;
+    let profileInFo;
+
+    if(userInFo.role === UserRole.SUPER_ADMIN){
+        profileInFo = await prisma.admin.findUniqueOrThrow({
+            where:{
+                email:userInFo.email
+            }
+        });
+    }
+
+    else if(userInFo.role === UserRole.ADMIN){
+        profileInFo = await prisma.admin.findUniqueOrThrow({
+            where:{
+                email:userInFo.email
+            }
+        });
+    }
+    else if(userInFo.role === UserRole.DOCTOR){
+            profileInFo = await prisma.doctor.findUniqueOrThrow({
+                where:{
+                    email:userInFo.email
+                }
+            });
+        }
+    else if(userInFo.role === UserRole.PAIENT){
+            profileInFo = await prisma.patient.findUniqueOrThrow({
+                where:{
+                    email:userInFo.email
+                }
+            });
+    }
+    return {...userInFo,...profileInFo};
 }
 
 
